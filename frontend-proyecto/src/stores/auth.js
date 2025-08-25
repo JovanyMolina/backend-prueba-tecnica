@@ -2,30 +2,38 @@ import { defineStore } from "pinia";
 import api from "../plugins/api";
 
 export const useAuthStore = defineStore("auth", {
-  state: () => ({ user: null, loading: true }),
+  state: () => ({
+    user: null,
+    loading: true,
+  }),
   actions: {
-    async bootstrap() {
+    async profile() {
       const token = localStorage.getItem("token");
-      if (!token) { this.loading = false; return; }
+      if (!token) { this.user = null; this.loading = false; return; }
+
+      this.loading = true;
       try {
         const { data } = await api.get("/api/me");
         this.user = data;
       } catch {
         localStorage.removeItem("token");
+        this.user = null;
+      } finally {
+        this.loading = false;
       }
-      this.loading = false;
     },
+
     async login(email, password) {
       const { data } = await api.post("/api/login", { email, password });
       localStorage.setItem("token", data.token);
-      console.log("data token: ", data.token);
-      const me = await api.get("/api/me");
-      this.user = me.data;
+      await this.profile(); 
     },
+
     async logout() {
       try { await api.post("/api/logout"); } catch {}
       localStorage.removeItem("token");
       this.user = null;
-    }
+      this.loading = false;
+    },
   },
 });

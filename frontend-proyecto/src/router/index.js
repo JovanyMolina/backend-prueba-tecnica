@@ -19,7 +19,20 @@ const routes = [
   },
 ];
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      next("/"); 
+      return;
+    }
+  }
+  next();
+});
+
+export default router;
