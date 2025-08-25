@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed,onMounted  } from "vue";
 import Swal from "sweetalert2";
 import api from "../plugins/api";
 import { useAuthStore } from "../stores/auth";
@@ -18,27 +18,37 @@ const schema = yup.object({
     .string()
     .oneOf([yup.ref("password")], "Las contraseñas no coinciden")
     .required("Requerido"),
+  role: yup.string().oneOf(["colaborador", "admin"], "Rol inválido"),
+
+});
+
+onMounted(async () => {
+  if (localStorage.getItem("token") && !auth.user) {
+    await auth.profile(); 
+  }
 });
 
 async function onSubmit(values) {
   try {
-    // 1) Crear la cuenta en /api/register
-    const { data } = await api.post("/api/register", {
+    const payload = {
       name: values.name,
       email: values.email,
       password: values.password,
       password_confirmation: values.password_confirmation,
-    });
+    };
+    if (localStorage.getItem("token") && auth.user?.role === "admin") {
+      payload.role = values.role;
+    }
+    const { data } = await api.post("/api/register", payload);
 
-    // 2) Si el backend devuelve token, úsalo; si no, inicia sesión con /api/login
-    if (data?.token) {
+/*     if (data?.token) {
       localStorage.setItem("token", data.token);
       const me = await api.get("/api/me");
       auth.user = me.data;
     } else {
       await auth.login(values.email, values.password);
     }
-
+ */
     Swal.fire({
       icon: "success",
       title: "Cuenta creada",
@@ -51,10 +61,14 @@ async function onSubmit(values) {
     Swal.fire({ icon: "error", title: "Error", text: msg });
   }
 }
+
+const isAdminWithToken = computed(() =>
+  Boolean(localStorage.getItem("token")) && auth.user?.role === "admin"
+);
 </script>
 
 <template>
-  <div
+  <div 
     class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 flex items-center justify-center p-4"
   >
     <Form
@@ -108,6 +122,20 @@ async function onSubmit(values) {
             class="mt-1 w-full rounded-lg border-slate-300 focus:border-indigo-500 border focus:ring-indigo-200 focus:ring-2 px-3 py-2 outline-none"
           />
           <ErrorMessage name="email" class="mt-1 text-xs text-red-600" />
+        </div>
+
+        <div v-if="isAdminWithToken" class="mb-4">
+         
+          <label class="block text-sm font-medium text-slate-700">Rol</label>
+          <Field
+            name="role"
+            as="select"
+            class="mt-1 w-full rounded-lg border-slate-300 focus:border-indigo-500 border focus:ring-indigo-200 focus:ring-2 px-3 py-2 outline-none"
+          >
+            <option value="colaborador">Colaborador</option>
+            <option value="admin">Administrador</option>
+          </Field>
+          <ErrorMessage name="role" class="mt-1 text-xs text-red-600" />
         </div>
 
         <div class="mb-4">
@@ -230,7 +258,10 @@ async function onSubmit(values) {
           <span>{{ isSubmitting ? "Creando cuenta..." : "Crear cuenta" }}</span>
         </button>
 
-        <p class="text-center text-sm text-slate-600 mt-4">
+        <p
+          v-if="!auth.user || auth.user.role !== 'admin'"
+          class="text-center text-sm text-slate-600 mt-4"
+        >
           ¿Ya tienes cuenta?
           <a href="/" class="text-indigo-600 hover:text-indigo-700"
             >Inicia sesión</a

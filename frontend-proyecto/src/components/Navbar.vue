@@ -22,7 +22,7 @@ async function doLogout() {
   Swal.fire({
     icon: "success",
     title: "Sesión cerrada",
-    timer: 1000,
+    timer: 2000, 
     showConfirmButton: false,
   });
   router.push("/");
@@ -37,6 +37,12 @@ async function doLogout() {
       class="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between"
     >
       <div class="text-slate-800 font-semibold">Prueba Técnica</div>
+     <!--  <a
+         href="/register"
+          class="ml-3 inline-flex items-center px-3 py-1.5 rounded-lg bg-slate-800 text-white text-sm font-medium hover:opacity-90"
+        >
+          Registrar usuarios
+        </a> -->
 
       <div class="flex items-center gap-3">
         <div
