@@ -155,7 +155,6 @@ async function onSubmit(values) {
           <ErrorMessage name="password" class="mt-1 text-xs text-red-600" />
         </div>
 
-        <!-- Confirm -->
         <div class="mb-6">
           <label class="block text-sm font-medium text-slate-700"
             >Confirmar contraseña</label
