@@ -59,7 +59,7 @@ async function onSubmit(values) {
           </div>
           <h1 class="text-2xl font-semibold text-slate-800">Iniciar sesión</h1>
           <p class="text-sm text-slate-500">
-            Ingresa tus credenciales para continuar test@example.com password
+            Ingresa tus credenciales para continuar
           </p>
         </div>
 
