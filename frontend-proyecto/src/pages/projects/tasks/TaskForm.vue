@@ -18,7 +18,7 @@ const form = ref({
   due_date: "",
   state: "Pendiente",
   priority: "Media",
-  assigned_users: [], 
+  assigned_users: [],
 });
 
 const loading = ref(false);
@@ -28,7 +28,7 @@ async function loadProject() {
   try {
     const response = await api.get(`/api/projects/${projectId.value}`);
     project.value = response.data.data || response.data;
-    console.log("Proyecto cargado:", project.value);
+    /*   console.log("Proyecto cargado:", project.value); */
   } catch (error) {
     console.error("Error cargando proyecto:", error);
     Swal.fire("Error", "No se pudo cargar el proyecto", "error");
@@ -61,8 +61,8 @@ async function loadTask() {
         : [],
     };
 
-    console.log("Tarea cargada:", task);
-    console.log("Usuarios asignados:", form.value.assigned_users);
+    /*  console.log("Tarea cargada:", task);
+    console.log("Usuarios asignados:", form.value.assigned_users); */
   } catch (error) {
     console.error("Error cargando tarea:", error);
     Swal.fire("Error", "No se pudo cargar la tarea", "error");
@@ -93,7 +93,7 @@ async function submit() {
     due_date: form.value.due_date || null,
     state: form.value.state,
     priority: form.value.priority,
-    assigned_users: form.value.assigned_users.map(Number), 
+    assigned_users: form.value.assigned_users.map(Number),
   };
 
   console.log("=== ENVIANDO TAREA ===");
@@ -268,9 +268,7 @@ onMounted(async () => {
           </option>
         </select>
 
-        <p class="text-xs text-slate-500 mt-1">
-          Mantén CTRL
-        </p>
+        <p class="text-xs text-slate-500 mt-1">Mantén CTRL</p>
 
         <div v-if="form.assigned_users.length" class="mt-3">
           <div class="text-sm text-slate-600 mb-2">
@@ -294,7 +292,7 @@ onMounted(async () => {
           v-if="!project?.collaborators?.length"
           class="mt-2 text-sm text-red-600 bg-red-50 p-3 rounded"
         >
-      Este proyecto no tiene colaboradores asignados.
+          Este proyecto no tiene colaboradores asignados.
           <br />
           <router-link
             :to="`/projects/${projectId}/edit`"
@@ -329,8 +327,6 @@ onMounted(async () => {
           </button>
         </div>
       </div>
-
-      
     </div>
   </div>
 </template>

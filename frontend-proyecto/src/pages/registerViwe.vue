@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed,onMounted  } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Swal from "sweetalert2";
 import api from "../plugins/api";
 import { useAuthStore } from "../stores/auth";
@@ -19,12 +19,11 @@ const schema = yup.object({
     .oneOf([yup.ref("password")], "Las contraseñas no coinciden")
     .required("Requerido"),
   role: yup.string().oneOf(["colaborador", "admin"], "Rol inválido"),
-
 });
 
 onMounted(async () => {
   if (localStorage.getItem("token") && !auth.user) {
-    await auth.profile(); 
+    await auth.profile();
   }
 });
 
@@ -39,11 +38,10 @@ async function onSubmit(values) {
     if (localStorage.getItem("token") && auth.user?.role === "admin") {
       payload.role = values.role;
     }
-  
-    const { data } = await api.post("/api/register", payload);
- 
 
-/*     if (data?.token) {
+    const { data } = await api.post("/api/register", payload);
+
+    /*     if (data?.token) {
       localStorage.setItem("token", data.token);
       const me = await api.get("/api/me");
       auth.user = me.data;
@@ -59,23 +57,24 @@ async function onSubmit(values) {
     });
     window.location.href = "/dashboard";
   } catch (e) {
-    const msg = e?.response?.data?.message || "No se pudo registrar";
+    const msg = "No se pudo registrar el usuario por que este correo fue registrado";
     Swal.fire({ icon: "error", title: "Error", text: msg });
   }
 }
 
-const isAdminWithToken = computed(() =>
-  Boolean(localStorage.getItem("token")) && auth.user?.role === "admin"
+const isAdminWithToken = computed(
+  () => Boolean(localStorage.getItem("token")) && auth.user?.role === "admin"
 );
 </script>
 
 <template>
-  <div 
+  <div
     class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 flex items-center justify-center p-4"
   >
     <Form
       :validation-schema="schema"
       @submit="onSubmit"
+      :initial-values="{ role: 'colaborador' }"
       v-slot="{ isSubmitting }"
       class="w-full max-w-md"
     >
@@ -127,7 +126,6 @@ const isAdminWithToken = computed(() =>
         </div>
 
         <div v-if="isAdminWithToken" class="mb-4">
-         
           <label class="block text-sm font-medium text-slate-700">Rol</label>
           <Field
             name="role"

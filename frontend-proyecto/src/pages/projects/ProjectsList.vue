@@ -15,8 +15,12 @@ const search = ref("");
 const filtered = computed(() => {
   const s = search.value.trim().toLowerCase();
   if (!s) return projects.value;
-  return projects.value.filter(p =>
-    [p.name, p.description, p.status].some(v => String(v || "").toLowerCase().includes(s))
+  return projects.value.filter((p) =>
+    [p.name, p.description, p.status].some((v) =>
+      String(v || "")
+        .toLowerCase()
+        .includes(s)
+    )
   );
 });
 
@@ -24,7 +28,7 @@ async function load() {
   loading.value = true;
   try {
     const { data } = await api.get("/api/projects");
-    
+
     if (data.data && Array.isArray(data.data)) {
       projects.value = data.data;
     } else if (Array.isArray(data)) {
@@ -32,8 +36,8 @@ async function load() {
     } else {
       projects.value = [];
     }
-    
-    console.log("Proyectos finales:", projects.value);
+
+    /*   console.log("Proyectos finales:", projects.value); */
   } finally {
     loading.value = false;
   }
@@ -59,13 +63,18 @@ async function remove(id) {
     showCancelButton: true,
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
-  }).then(r => r.isConfirmed);
+  }).then((r) => r.isConfirmed);
 
   if (!ok) return;
 
   await api.delete(`/api/projects/${id}`);
   await load();
-  Swal.fire({ icon: "success", title: "Proyecto eliminado", timer: 1000, showConfirmButton: false });
+  Swal.fire({
+    icon: "success",
+    title: "Proyecto eliminado",
+    timer: 1000,
+    showConfirmButton: false,
+  });
 }
 
 onMounted(async () => {
@@ -111,14 +120,12 @@ onMounted(async () => {
         </thead>
         <tbody>
           <tr v-if="loading">
-            <td colspan="6" class="p-6 text-center text-slate-500">Cargando...</td>
+            <td colspan="6" class="p-6 text-center text-slate-500">
+              Cargando...
+            </td>
           </tr>
 
-          <tr
-            v-for="p in filtered"
-            :key="p.id"
-            class="border-t"
-          >
+          <tr v-for="p in filtered" :key="p.id" class="border-t">
             <td class="p-3 font-medium text-slate-800">{{ p.name }}</td>
             <td class="p-3">
               <span
@@ -133,10 +140,14 @@ onMounted(async () => {
               </span>
             </td>
             <td class="p-3">{{ p.start_date }}</td>
-            <td class="p-3">{{ p.end_date || '—' }}</td>
+            <td class="p-3">{{ p.end_date || "—" }}</td>
             <td class="p-3">
               <span class="text-slate-700">
-                {{ Array.isArray(p.collaborators) ? p.collaborators.length : (p.collaborators_count ?? 0) }}
+                {{
+                  Array.isArray(p.collaborators)
+                    ? p.collaborators.length
+                    : p.collaborators_count ?? 0
+                }}
               </span>
             </td>
             <td class="p-3 text-right">
@@ -147,7 +158,7 @@ onMounted(async () => {
                 >
                   Ver Tareas
                 </button>
-                
+
                 <button
                   class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-xs"
                   @click="goEdit(p.id)"

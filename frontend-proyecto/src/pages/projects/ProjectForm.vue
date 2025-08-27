@@ -23,10 +23,9 @@ const collaborators = ref([]);
 const users = ref([]);
 const loading = ref(false);
 
-
 async function loadUsers() {
   try {
-    console.log("Cargando usuarios...");
+    /* console.log("Cargando usuarios..."); */
     const { data } = await api.get("/api/users");
     collaborators.value = Array.isArray(data) ? data : data?.data ?? [];
     collaborators.value = collaborators.value.map((u) => ({
@@ -35,7 +34,13 @@ async function loadUsers() {
       email: u.email,
       role: u.role,
     }));
-    console.log("Colaboradores cargados:", collaborators.value);
+    Swal.fire({
+      icon: "success",
+      title: "Colaboradores cargados",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+    /* console.log("Colaboradores cargados:", collaborators.value); */
   } catch (err) {
     console.error("Error cargando usuarios:", err);
     collaborators.value = [];
@@ -44,25 +49,25 @@ async function loadUsers() {
 
 async function loadProject() {
   try {
-    console.log("Cargando proyecto ID:", route.params.id);
+    /* console.log("Cargando proyecto ID:", route.params.id); */
     const response = await api.get(`/api/projects/${route.params.id}`);
-    console.log("Respuesta completa:", response);
-    
+    /*  console.log("Respuesta completa:", response); */
+
     const projectData = response.data.data || response.data;
-    console.log("Datos del proyecto:", projectData);
-    
+    /* console.log("Datos del proyecto:", projectData); */
+
     form.value = {
       name: projectData.name || "",
       description: projectData.description || "",
       start_date: projectData.start_date || "",
       end_date: projectData.end_date || "",
       status: projectData.status || "Activo",
-      user_ids: Array.isArray(projectData.collaborators) 
+      user_ids: Array.isArray(projectData.collaborators)
         ? projectData.collaborators.map((u) => Number(u.id))
         : [],
     };
-    
-    console.log("Formulario después de cargar:", form.value);
+
+    /* console.log("Formulario después de cargar:", form.value); */
   } catch (error) {
     console.error("Error cargando proyecto:", error);
   }
@@ -86,7 +91,7 @@ async function submit() {
   }
 
   loading.value = true;
-  
+
   const payload = {
     name: form.value.name,
     description: form.value.description,
@@ -106,8 +111,14 @@ async function submit() {
     }
     router.push("/projects");
   } catch (error) {
-    console.error("Error guardando proyecto:", error);
-    Swal.fire("Error", "No se pudo guardar el proyecto", "error");
+    Swal.fire(
+      "Error",
+      "Te falto llenar el formulario o hay un error",
+      "error",
+      {
+        showConfirmButton: true,
+      }
+    );
   } finally {
     loading.value = false;
   }
