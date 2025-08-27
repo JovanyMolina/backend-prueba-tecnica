@@ -46,12 +46,10 @@ async function onSubmit(values) {
       <div
         class="bg-white/80 backdrop-blur border border-slate-200 shadow-xl rounded-2xl p-8"
       >
-       
         <div class="flex flex-col items-center text-center mb-6">
           <div
             class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mb-3"
           >
-            
             <svg viewBox="0 0 24 24" class="h-6 w-6 text-indigo-600">
               <path
                 fill="currentColor"
@@ -61,13 +59,10 @@ async function onSubmit(values) {
           </div>
           <h1 class="text-2xl font-semibold text-slate-800">Iniciar sesión</h1>
           <p class="text-sm text-slate-500">
-            Ingresa tus credenciales para continuar
-            test@example.com
-            password
+            Ingresa tus credenciales para continuar test@example.com password
           </p>
         </div>
 
-        
         <div class="mb-4">
           <label class="block text-sm font-medium text-slate-700"
             >Correo electrónico</label
@@ -82,7 +77,6 @@ async function onSubmit(values) {
           <ErrorMessage name="email" class="mt-1 text-xs text-red-600" />
         </div>
 
-       
         <div class="mb-2">
           <label class="block text-sm font-medium text-slate-700"
             >Contraseña</label
@@ -93,7 +87,7 @@ async function onSubmit(values) {
               name="password"
               autocomplete="current-password"
               as="input"
-            class="mt-1 w-full rounded-lg border-slate-300 focus:border-indigo-500 border focus:ring-indigo-200 focus:ring-2 px-3 py-2 outline-none"
+              class="mt-1 w-full rounded-lg border-slate-300 focus:border-indigo-500 border focus:ring-indigo-200 focus:ring-2 px-3 py-2 outline-none"
             />
             <button
               type="button"
@@ -101,7 +95,6 @@ async function onSubmit(values) {
               class="absolute inset-y-0 right-0 px-3 flex items-center text-slate-500 hover:text-slate-700"
               aria-label="Mostrar/Ocultar contraseña"
             >
-             
               <svg
                 v-if="!showPass"
                 xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +122,7 @@ async function onSubmit(values) {
           <ErrorMessage name="password" class="mt-1 text-xs text-red-600" />
         </div>
 
-        <div class="flex items-center justify-between mb-6">
+        <!--     <div class="flex items-center justify-between mb-6">
           <label class="inline-flex items-center gap-2 text-sm text-slate-600">
             <input
               type="checkbox"
@@ -138,7 +131,7 @@ async function onSubmit(values) {
             Recuérdame
           </label>
           
-        </div>
+        </div> -->
 
         <button
           :disabled="isSubmitting"
@@ -167,9 +160,11 @@ async function onSubmit(values) {
           <span>{{ isSubmitting ? "Entrando..." : "Entrar" }}</span>
         </button>
         <div class="flex flex-col items-center text-center">
-          <a class="text-sm text-indigo-600 hover:text-indigo-700" href="/register"
-              >Regístrate aquí</a
-            >
+          <a
+            class="text-sm text-indigo-600 hover:text-indigo-700"
+            href="/register"
+            >Regístrate aquí</a
+          >
         </div>
       </div>
     </Form>

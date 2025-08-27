@@ -131,9 +131,9 @@ onMounted(async () => {
               <span
                 class="px-2 py-1 rounded text-xs"
                 :class="{
-                  'bg-green-100 text-green-700': p.status === 'Activo',
-                  'bg-yellow-100 text-yellow-700': p.status === 'Pausado',
-                  'bg-slate-200 text-slate-700': p.status === 'Terminado',
+                  'bg-green-600 text-white': p.status === 'Activo',
+                  'bg-yellow-600 text-white': p.status === 'Pausado',
+                  'bg-purple-600 text-white': p.status === 'Terminado',
                 }"
               >
                 {{ p.status }}
@@ -153,7 +153,7 @@ onMounted(async () => {
             <td class="p-3 text-right">
               <div class="inline-flex gap-2">
                 <button
-                  class="px-2 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 text-xs"
+                  class="px-2 py-1 rounded bg-blue-500 text-white hover:bg-blue-600 text-xs"
                   @click="goTasks(p.id)"
                 >
                   Ver Tareas
@@ -167,7 +167,7 @@ onMounted(async () => {
                   Editar
                 </button>
                 <button
-                  class="px-2 py-1 rounded bg-rose-100 text-rose-700 hover:bg-rose-200 text-xs"
+                  class="px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 text-xs"
                   @click="remove(p.id)"
                   v-if="auth.user?.role === 'admin'"
                 >

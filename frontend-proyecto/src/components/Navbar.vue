@@ -22,7 +22,7 @@ async function doLogout() {
   Swal.fire({
     icon: "success",
     title: "Sesión cerrada",
-    timer: 2000, 
+    timer: 2000,
     showConfirmButton: false,
   });
   router.push("/");
@@ -36,8 +36,10 @@ async function doLogout() {
     <div
       class="max-w-7xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between"
     >
-      <div class="text-slate-800 font-semibold">Prueba Técnica</div>
-     <!--  <a
+      <div class="text-slate-800 font-semibold">
+        <a href="/dashboard">Prueba Técnica</a>
+      </div>
+      <!--  <a
          href="/register"
           class="ml-3 inline-flex items-center px-3 py-1.5 rounded-lg bg-slate-800 text-white text-sm font-medium hover:opacity-90"
         >
@@ -68,7 +70,7 @@ async function doLogout() {
           <div class="text-xs text-slate-500 capitalize">{{ role }}</div>
         </div>
 
-       <!--  <button
+        <!--  <button
           @click="doLogout"
           class="ml-3 inline-flex items-center px-3 py-1.5 rounded-lg bg-slate-800 text-white text-sm font-medium hover:opacity-90"
         >

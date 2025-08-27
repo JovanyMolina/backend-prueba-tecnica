@@ -252,7 +252,7 @@ function getRoleClass(role) {
 }
 
 function getStatusClass(active) {
-  return active ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700";
+  return active ? "bg-green-600 text-white" : "bg-red-600 text-white";
 }
 
 function closeSidebar() {
@@ -351,7 +351,6 @@ onMounted(async () => {
             <h2 class="text-xl font-semibold text-slate-800">
               Gestión de Usuarios
             </h2>
-            
           </div>
 
           <div class="bg-slate-50 p-4 rounded-xl mb-4">
@@ -460,7 +459,7 @@ onMounted(async () => {
                     <button
                       @click="deleteUser(user)"
                       :disabled="user.id === auth.user?.id"
-                      class="px-2 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 text-xs disabled:opacity-50"
+                      class="px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 text-xs disabled:opacity-50"
                     >
                       Eliminar
                     </button>
@@ -498,8 +497,6 @@ onMounted(async () => {
         </div>
       </main>
     </div>
-
-    
 
     <div
       v-if="showProjectModal"
