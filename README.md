@@ -60,7 +60,6 @@ Para prender el servidor: php artisan serve
 ```
 **Base de datos**
 
-```bash
 En tu MySQL Workbench debes de 
 1) Crear un schema con nombre **laravel**
 2) Debes de ir a las opciones de arriba y selecionas **Server**
@@ -69,6 +68,6 @@ En tu MySQL Workbench debes de
 5) En **Default Target Schema** selecionas la **laravel**
 6) y colocas en **Dump Structure and Dat** y dale click en **Start Import**
 7) Listo ya tienes la bd
-```
+
 
 
