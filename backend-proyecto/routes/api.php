@@ -11,7 +11,9 @@ use App\Http\Controllers\TaskController;
 
 // ----- PÚBLICO -----
 Route::post('/login',    [AuthenticatedSessionController::class, 'store']);
+
 Route::post('/register', [RegisteredUserController::class, 'store']);
+
 
 // ----- AUTENTICADO -----
 Route::middleware('auth:sanctum')->group(function () {
