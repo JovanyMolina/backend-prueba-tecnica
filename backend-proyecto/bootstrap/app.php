@@ -3,6 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Http\Middleware\HandleCors;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,8 +23,21 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         ]);
 
+        $middleware->alias([
+            'role' => RoleMiddleware::class, 
+        ]);
+
         //
     })
+
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->append(HandleCors::class);
+
+        $middleware->alias([
+            'role' => RoleMiddleware::class,
+        ]);
+    })
+
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

@@ -9,8 +9,6 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    // Si no pones el middleware 'role:admin' en rutas,
-    // este guard simple mantiene el control dentro del controlador.
     private function ensureAdmin(Request $request): void
     {
         abort_unless($request->user()?->role === 'admin', 403, 'Forbidden');
@@ -19,25 +17,23 @@ class UserController extends Controller
     // GET /api/users?search=&role=&per_page=
     public function index(Request $request)
     {
-        $this->ensureAdmin($request);
+  $this->ensureAdmin($request);
 
-        $q = User::query();
+    $q = User::query()
+        ->select('id','name','email','role')
+        ->when($request->filled('role'), fn($qq) => $qq->where('role', $request->role))
+        ->orderBy('name');
 
-        if ($s = $request->query('search')) {
-            $q->where(function ($qq) use ($s) {
-                $qq->where('name', 'like', "%{$s}%")
-                   ->orWhere('email', 'like', "%{$s}%");
-            });
-        }
-        if ($role = $request->query('role')) {
-            $q->where('role', $role);
-        }
-
-        $per = (int) $request->query('per_page', 15);
-        return $q->orderByDesc('id')->paginate($per);
+   
+    if ($request->boolean('paginate', true)) {
+        $per = (int) $request->query('per_page', 20);
+        return $q->paginate($per);
     }
 
-    // POST /api/users
+    return $q->get();
+ }
+
+    // POST /api/users  (solo admin)
     public function store(Request $request)
     {
         $this->ensureAdmin($request);
@@ -55,14 +51,14 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
-    // GET /api/users/{user}
+    // GET /api/users/{user} (solo admin)
     public function show(Request $request, User $user)
     {
         $this->ensureAdmin($request);
         return $user;
     }
 
-    // PUT/PATCH /api/users/{user}
+    // PUT /api/users/{user} (solo admin)
     public function update(Request $request, User $user)
     {
         $this->ensureAdmin($request);
@@ -88,7 +84,7 @@ class UserController extends Controller
         return $user->fresh();
     }
 
-    // DELETE /api/users/{user}
+    // DELETE /api/users/{user} (solo admin)
     public function destroy(Request $request, User $user)
     {
         $this->ensureAdmin($request);
@@ -101,7 +97,7 @@ class UserController extends Controller
         return response()->noContent();
     }
 
-    // Opcional: PATCH /api/users/{user}/role  (si quieres un endpoint específico)
+    // PATCH /api/users/{user}/role (solo admin)
     public function updateRole(Request $request, User $user)
     {
         $this->ensureAdmin($request);
