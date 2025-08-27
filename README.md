@@ -53,9 +53,16 @@ npm run dev
 
 ```bash
 Debes de tener la version de PHP 8.4.11
-Instalar dependencias de : composer install (Si lo tienes lo lo instales)
-Si es necesario se debera de generar la App_key con este comando: php artisan key:generate
-Para prender el servidor: php artisan serve
+debes de tener el .env (si no lo tienes crealo) la configuración ya la tiene el archivo .env.example copia y pega 
+
+deberás de instalar:
+composer install
+
+generamos la key:
+php artisan key:generate  
+
+y corremos el server:
+php artisan key:generate  
 
 ```
 **Base de datos**
