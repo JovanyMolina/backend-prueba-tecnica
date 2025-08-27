@@ -53,9 +53,10 @@ npm run dev
 
 ```bash
 Debes de tener la version de PHP 8.4.11
-debes de tener el .env (si no lo tienes crealo) la configuración ya la tiene el archivo .env.example copia y pega 
+debes de tener el .env (si no lo tienes crealo) la configuración la tiene el archivo .env.example
+copia lo que tiene el .env.example y pega al .env
 
-deberás de instalar:
+deberás de instalar adentro de la carpeta del backend el siguiente comando:
 composer install
 
 generamos la key:
@@ -79,7 +80,7 @@ En tu MySQL Workbench debes de
 **Credenciales**
 Todas las cuentas que se crearon tienen la misma contrasela
 
-test@example.com  |  password  | admin
-mariana@gmail.com  |  password  | colaborador
+1) test@example.com  |  password  | admin
+2) mariana@gmail.com  |  password  | colaborador
 
 
