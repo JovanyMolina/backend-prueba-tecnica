@@ -18,28 +18,36 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
     Route::get('/me', fn (Request $request) => $request->user());
 
-    // Proyectos: lectura para cualquier autenticado
-    Route::get('/projects',           [ProjectController::class, 'index']);
+    // RUTAS ESPECÍFICAS DE USUARIOS (ANTES QUE LAS GENÉRICAS)
+    Route::get('/users/stats', [UserController::class, 'getStats']);
+    Route::get('/users/{user}/projects', [UserController::class, 'getUserProjects']);
+    Route::put('/users/{user}/projects', [UserController::class, 'assignProjects']);
+    Route::put('/users/{user}/toggle-status', [UserController::class, 'toggleStatus']);
+    Route::put('/users/{user}/role', [UserController::class, 'updateRole']);
+    
+    // RUTAS GENÉRICAS DE USUARIOS
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users/{user}', [UserController::class, 'show']);
+    Route::post('/users', [UserController::class, 'store']);
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+    // Proyectos
+    Route::get('/projects', [ProjectController::class, 'index']);
     Route::get('/projects/{project}', [ProjectController::class, 'show']);
 
-    // Tareas: lectura/actualización (admin ve todas; colaborador solo las suyas)
-    Route::get('/tasks',        [TaskController::class, 'index']);
+    // Tareas
+    Route::get('/tasks', [TaskController::class, 'index']);
     Route::put('/tasks/{task}', [TaskController::class, 'update']);
 
     // ----- SOLO ADMIN -----
     Route::middleware('role:admin')->group(function () {
-
         // CRUD de proyectos
-        Route::post('/projects',                 [ProjectController::class, 'store']);
-        Route::put('/projects/{project}',        [ProjectController::class, 'update']);
-        Route::delete('/projects/{project}',     [ProjectController::class, 'destroy']);
+        Route::post('/projects', [ProjectController::class, 'store']);
+        Route::put('/projects/{project}', [ProjectController::class, 'update']);
+        Route::delete('/projects/{project}', [ProjectController::class, 'destroy']);
 
         // Tareas: crear/eliminar
         Route::post('/projects/{project}/tasks', [TaskController::class, 'store']);
-        Route::delete('/tasks/{task}',           [TaskController::class, 'destroy']);
-
-        // Usuarios (para selects de colaboradores, gestión)
-        Route::apiResource('users', UserController::class)->except(['create','edit']);
-        Route::patch('users/{user}/role', [UserController::class, 'updateRole']);
+        Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
     });
 });

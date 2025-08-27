@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+         'active',
     ];
     
 
@@ -46,15 +47,16 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'active' => 'boolean',
         ];
     }
 
     public function projects() { 
-        return $this->belongsToMany(\App\Models\Project::class)->withTimestamps(); 
+        return $this->belongsToMany(\App\Models\Project::class, 'project_user')->withTimestamps(); 
     }
 
     public function assignedTasks() { 
-    return $this->belongsToMany(Task::class)->withTimestamps(); 
+        return $this->hasMany(\App\Models\Task::class, 'assigned_to'); 
     }
 
 }
