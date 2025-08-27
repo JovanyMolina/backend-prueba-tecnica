@@ -76,5 +76,10 @@ En tu MySQL Workbench debes de
 6) y colocas en **Dump Structure and Dat** y dale click en **Start Import**
 7) Listo ya tienes la bd
 
+**Credenciales**
+Todas las cuentas que se crearon tienen la misma contrasela
+
+test@example.com  |  password  | admin
+mariana@gmail.com  |  password  | colaborador
 
 
