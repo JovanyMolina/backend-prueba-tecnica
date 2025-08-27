@@ -29,7 +29,6 @@ async function doLogout() {
   router.push("/");
 }
 
-// Links del menú organizados por rol
 const links = computed(() => {
   const items = [
     {
@@ -55,7 +54,6 @@ const links = computed(() => {
     },
   ];
 
-  // Solo admin ve registro de usuarios
   if (role.value === "admin") {
     items.splice(1, 0, {
       label: "Registrar Usuarios",
@@ -136,7 +134,6 @@ function closeOnMobile() {
       </ul>
     </nav>
 
-    <!-- Logout button -->
     <div class="mt-auto p-3 border-t border-slate-200">
       <button
         @click="doLogout"
