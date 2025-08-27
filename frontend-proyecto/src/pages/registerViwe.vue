@@ -39,7 +39,9 @@ async function onSubmit(values) {
     if (localStorage.getItem("token") && auth.user?.role === "admin") {
       payload.role = values.role;
     }
+  
     const { data } = await api.post("/api/register", payload);
+ 
 
 /*     if (data?.token) {
       localStorage.setItem("token", data.token);
