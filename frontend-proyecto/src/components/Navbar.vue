@@ -68,12 +68,12 @@ async function doLogout() {
           <div class="text-xs text-slate-500 capitalize">{{ role }}</div>
         </div>
 
-        <button
+       <!--  <button
           @click="doLogout"
           class="ml-3 inline-flex items-center px-3 py-1.5 rounded-lg bg-slate-800 text-white text-sm font-medium hover:opacity-90"
         >
           Cerrar sesión
-        </button>
+        </button> -->
       </div>
     </div>
   </header>
